@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:include="fragments/head"></th:block>
+<body class="hold-transition skin-blue sidebar-mini">
+
+<div class="wrapper">
+
+    <nav class="navbar">
+
+    </nav>
+    <header class="main-header">
+        <div th:replace="fragments/navbar"></div>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+        <div th:replace="fragments/sidebar"></div>
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header" layout:fragment="header"></section>
+        <!-- Main content -->
+        <section class="content">
+            <div th:if="${successFlash!=null}" class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <p th:text="successFlash"></p>
+            </div>
+            <div layout:fragment="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <p class="my-2">
+                                        <button type="button" class="btn btn-success nTiersBtn">Nouveau</button>
+                                    </p>
+                                    <div class="card-body">
+                                        <div th:switch="${tiers}" style="width: 100%">
+                                            <div class="col-md-12">
+                                                <h2 th:case="null">No record found !!</h2>
+                                                <div th:case="*">
+                                                    <table class="table table-striped table-responsive-md">
+                                                        <thead>
+                                                        <tr>
+                                                            <th> # </th>
+                                                            <th> Nom </th>
+                                                            <th> Adresse </th>
+                                                            <th> Email </th>
+                                                            <th> Phone </th>
+                                                            <th> NIF </th>
+                                                            <th> STAT </th>
+                                                            <th> Gérant </th>
+                                                            <th> Type </th>
+                                                            <th> </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr th:each="entity , iterator: ${tiers}">
+                                                            <td th:text="${iterator.index + 1}"></td>
+                                                            <td><span th:text="${entity.getNom()}"> Nom </span></td>
+                                                            <td><span th:text="${entity.getAdresse()}"> Adresse </span></td>
+                                                            <td><span th:text="${entity.getEmail()}"> Email </span></td>
+                                                            <td><span th:text="${entity.getPhone()}"> Phone </span></td>
+                                                            <td><span th:text="${entity.getNif()}"> NIF </span></td>
+                                                            <td><span th:text="${entity.getStat()}"> STAT </span></td>
+                                                            <td><span th:text="${entity.getGerant()}"> Gérant </span></td>
+                                                            <td><span th:text="${entity.getType().getLibelle()}"> Type </span></td>
+                                                            <td class="text-right py-0 align-middle">
+                                                                <div class="btn-group btn-group-sm">
+                                                                    <a href="#" th:href="@{/findOneTiers/{id}(id=${entity.id})}" class="btn btn-info eTiersBtn"><i class="fas fa-edit"></i></a>
+                                                                    <a href="#" th:href="@{/delete/tiers/{id}(id=${entity.id})}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <hr/>
+
+                                                    <div class="row" th:fragment="pagination">
+                                                        <div class="col-md-2"></div>
+                                                        <div class="col-md-8">
+                                                            <nav aria-label="Pagination">
+                                                                <ul class="pagination justify-content-center">
+                                                                    <li class="page-item" th:each="i:${#numbers.sequence(1,totalPages)}">
+                                                                        <a th:href="@{/unite/(page=${i})}" th:text="${i}" class="page-link"></a>
+                                                                    </li>
+                                                                </ul>
+                                                            </nav>
+                                                        </div>
+                                                        <div class="col-md-2"></div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+        <div th:replace="fragments/footer"></div>
+    </footer>
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+
+
+    <div class="modalTiers">
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajout/Modification</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form th:action="@{/add/tiers}" method="post">
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label for="id" class="col-form-label">ID:</label>
+                                <input type="text" class="form-control" id="id" name="id" readonly="readonly">
+                            </div>
+                            <div class="form-group">
+                                <label for="type" class="col-form-label">Type:</label>
+                                <select name="type" id="type" class="form-control"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="nom" class="col-form-label">Nom:</label>
+                                <input type="text" class="form-control" id="nom" name="nom">
+                            </div>
+                            <div class="form-group">
+                                <label for="adresse" class="col-form-label">Adresse:</label>
+                                <input type="text" class="form-control" id="adresse" name="adresse">
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="col-form-label">Email:</label>
+                                <input type="text" class="form-control" id="email" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" class="col-form-label">Phone:</label>
+                                <input type="text" class="form-control" id="phone" name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="nif" class="col-form-label">NIF:</label>
+                                <input type="text" class="form-control" id="nif" name="nif">
+                            </div>
+                            <div class="form-group">
+                                <label for="stat" class="col-form-label">STAT:</label>
+                                <input type="text" class="form-control" id="stat" name="stat">
+                            </div>
+                            <div class="form-group">
+                                <label for="gerant" class="col-form-label">Gerant:</label>
+                                <input type="text" class="form-control" id="gerant" name="gerant">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                            <input type="submit" class="btn btn-primary" value="Enregistrer"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="fragments/foot"></div>
+</body>
+</html>

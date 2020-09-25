@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:include="fragments/head"></th:block>
+<body class="hold-transition skin-blue sidebar-mini">
+
+<div class="wrapper">
+
+    <nav class="navbar">
+
+    </nav>
+    <header class="main-header">
+        <div th:replace="fragments/navbar"></div>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+        <div th:replace="fragments/sidebar"></div>
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header" layout:fragment="header"></section>
+        <!-- Main content -->
+        <section class="content">
+            <div th:if="${successFlash!=null}" class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <p th:text="successFlash"></p>
+            </div>
+            <div layout:fragment="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="invoice p-3 mb-3">
+                                <!-- title row -->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4>
+                                            <i class="fas fa-globe"></i> BAOBAB Technology.
+                                            <small class="float-right">Date: <span th:text="${#dates.format(fclient.getCreation(),'dd/MM/yyyy')}"></span></small>
+                                        </h4>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- info row -->
+                                <div class="row invoice-info">
+                                    <div class="col-sm-12 invoice-col">
+                                        <address>
+                                            <strong>BAOBAB TECHNOLOGY</strong><br>
+                                            Andoharanofotsy Tana 102<br>
+                                            Phone: 034 00 354 00<br>
+                                            Email: baobab-technology@gmail.com
+                                        </address>
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-8 invoice-col text-"></div>
+                                    <div class="col-sm-4 invoice-col text-" style="border: 1px solid #000;border-collapse: collapse;padding: 10px;border-radius: 5px;">
+                                        Doit à
+                                        <address>
+                                            <strong><span th:text="${fclient.getTiers().getNom()}"> </span></strong><br>
+                                            <span th:text="${fclient.getTiers().getAdresse()}"> </span><br>
+                                            Phone: <span th:text="${fclient.getTiers().getPhone()}"> </span><br>
+                                            Email: <span th:text="${fclient.getTiers().getEmail()}"> </span>
+                                        </address>
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-12 invoice-col text-center">
+                                        <br>
+                                        <b>Facture #<span th:text="${fclient.getId()}"> </span></b><br>
+                                        <b>Order ID:</b> <span th:text="${fclient.getOrderid()}"> </span><br>
+                                        <br>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <br>
+                                <!-- /.row -->
+                                <!--/*@thymesVar id="soustotal" type="java.lang.Double" */-->
+                                <!-- Table row -->
+                                <div class="row">
+                                    <div th:switch="${fclientdts}" style="width: 100%">
+                                    <div class="col-12 table-responsive">
+                                        <h2 th:case="null">No record found !!</h2>
+                                        <div th:case="*">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>Qté</th>
+                                                <th>Produit</th>
+                                                <th>Description</th>
+                                                <th>PU</th>
+                                                <th>Montant</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr th:each="entity : ${fclientdts}">
+                                                    <td><span th:text="${entity.getQuantite()}"> </span></td>
+                                                    <td><span th:text="${entity.getProduit().getNomarticle()}"> </span></td>
+                                                    <td><span th:text="${entity.getDescription()}"> </span></td>
+                                                    <td><span th:text="${entity.getProduit().getPrix()}"> </span></td>
+                                                    <td><span th:text="${#numbers.formatDecimal(entity.getMontant(),3,'WHITESPACE',2,'COMMA')}"> </span></td>
+                                                    <td class="text-right py-0 align-middle">
+                                                        <div class="btn-group btn-group-sm">
+                                                            <a href="#" th:href="@{/findOneFClientDTS/{id}(id=${entity.id})}" class="btn btn-info eFClientDBtn"><i class="fas fa-edit"></i></a>
+                                                            <a href="#" th:href="@{/delete/fclientdts/{id}(id=${entity.id})}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                                        </div>
+                                                    </td>
+                                                        <!--<span th:text="${soustotal += entity.getQuantite()*entity.getProduit().getPrix()}"> </span></td>-->
+
+                                                </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+
+                                <div class="row">
+                                    <!-- accepted payments column -->
+                                    <div class="col-6">
+                                        <p class="lead">Mode de paiement: <strong><span th:text="${fclient.getModepaiement().getLibelle()}"></span></strong></p>
+
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-6">
+                                        <p class="lead">Date limite de paiement: <span th:text="${#dates.format(fclient.getPaiementdue(),'dd/MM/yyyy')}"> </span></p>
+
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <th style="width:50%">Sous Total:</th>
+                                                    <td th:text="${#numbers.formatDecimal(total,3,'WHITESPACE',2,'COMMA')}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>TVA (<span th:text="${fclient.getTva()}"></span>%)</th>
+                                                    <td th:text="${#numbers.formatDecimal((total*fclient.getTva())/100,3,'WHITESPACE',2,'COMMA')}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Total:</th>
+                                                    <td th:text="${#numbers.formatDecimal(total+((total*fclient.getTva())/100),3,'WHITESPACE',2,'COMMA')}"></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+
+                                <!-- this row will not appear when printing -->
+                                <div class="row no-print">
+                                    <div class="col-12">
+                                        <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
+                                        <a href="#" th:href="@{/findOneFClient/{id}(id=${fclient.id})}" class="btn btn-info float-right nFcDetails"><i class="fa fa-cart-plus"></i>Ajouter détails</a>
+                                        <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;"><i class="fas fa-download"></i> Generate PDF</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+        <div th:replace="fragments/footer"></div>
+    </footer>
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+
+
+    <div class="modalFClientDts">
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajout/Modification</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form th:action="@{/add/fclientdts}" method="post">
+                        <div class="modal-body ui-front">
+
+                            <div class="form-group">
+                                <label for="id" class="col-form-label">ID:</label>
+                                <input type="text" class="form-control" id="id" name="id" readonly="readonly">
+                            </div>
+                            <div class="form-group">
+                                <label for="facture" class="col-form-label">Facture ID:</label>
+                                <input type="text" class="form-control" id="facture" name="facture" readonly="readonly">
+                            </div>
+                            <div class="form-group">
+                                <label for="produit" class="col-form-label">Produit:</label>
+                                <input type="text" class="form-control" id="produit" name="produit" onfocusout="focusOut(produit)">
+                            </div>
+                            <div class="form-group">
+                                <label for="quantite" class="col-form-label">Quantité:</label>
+                                <input type="text" class="form-control" id="quantite" name="quantite">
+                            </div>
+                            <div class="form-group">
+                                <label for="description" class="col-form-label">Description:</label>
+                                <input type="text" class="form-control" id="description" name="description">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                            <input type="submit" class="btn btn-primary" value="Enregistrer"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="fragments/foot"></div>
+</body>
+</html>
+<script>
+
+    $('#produit').autocomplete({
+        minLength: 2,
+        source: function(requete, response) {
+            $.ajax({
+                type: 'GET',
+                processData: true,
+                url: '/allArticle',
+                dataType: 'json',
+                success: function(data) {
+                    response($.map(data, function(item) {
+                        return item.id+': '+item.nomarticle;
+                    }))
+                }
+            });
+        },
+        select: function (e, ui) {
+            var selectedObj = ui.item;
+            var prest = selectedObj.value;
+            var temp = prest.split(":");
+            compte = temp[0].trim();
+            $("#produit").val(compte);
+        }
+    });
+    function focusOut(idinput) {
+        var value = $("#produit").val();
+        if (value.trim() === "") {
+            return;
+        } else {
+            var temp = value.split(":");
+            $("#produit").val(temp[0].trim());
+        }
+    }
+
+
+</script>

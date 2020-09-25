@@ -1,0 +1,156 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<aside class="sidebar-dark-primary elevation-4">
+      <a href="index3.html" class="brand-link">
+          <img src="/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+               style="opacity: .8">
+          <span class="brand-text font-weight-light">My STOCK</span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+          <!-- Sidebar user panel (optional) -->
+          <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+              <div class="image">
+                  <img src="/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+              </div>
+              <div class="info">
+                  <a href="#" class="d-block">Joë Alain</a>
+              </div>
+          </div>
+
+          <!-- Sidebar Menu -->
+          <nav class="mt-2">
+              <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                  <li class="nav-header">STOCK</li>
+                  <li class="nav-item">
+                      <a href="#" th:href="@{/article}" class="nav-link">
+                          <i class="nav-icon far fa-circle text-danger"></i>
+                          <p class="text">Article</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" th:href="@{/depot}" class="nav-link">
+                          <i class="nav-icon far fa-circle text-warning"></i>
+                          <p class="text">Dépot</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" th:href="@{/entree}" class="nav-link">
+                          <i class="nav-icon far fa-circle text-success"></i>
+                          <p class="text">Entrée</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" th:href="@{/sortie}" class="nav-link">
+                          <i class="nav-icon far fa-circle text-info"></i>
+                          <p class="text">Sortie</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" th:href="@{/etat}" class="nav-link">
+                          <i class="nav-icon far fa-circle text-secondary"></i>
+                          <p class="text">Etat</p>
+                      </a>
+                  </li>
+                  <li class="nav-header">FACTURATION/COMMANDE</li>
+
+                  <li class="nav-item">
+                      <a href="#" th:href="@{/commande}" class="nav-link">
+                          <i class="nav-icon far fa-circle text-primary"></i>
+                          <p class="text">Commande</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" th:href="@{/ffournisseur}" class="nav-link">
+                          <i class="nav-icon far fa-circle text-danger"></i>
+                          <p class="text">Facture fournisseur</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" th:href="@{/fclient}" class="nav-link">
+                          <i class="nav-icon far fa-circle text-warning"></i>
+                          <p class="text">Facture client</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" th:href="@{/tiers}" class="nav-link">
+                          <i class="nav-icon far fa-circle text-info"></i>
+                          <p class="text">Tiers</p>
+                      </a>
+                  </li>
+
+                  <li class="nav-header">PAIEMENT</li>
+
+                  <li class="nav-item">
+                      <a href="#" th:href="@{/depense}" class="nav-link">
+                          <i class="nav-icon far fa-circle text-primary"></i>
+                          <p class="text">Dépense</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" th:href="@{/recette}" class="nav-link">
+                          <i class="nav-icon far fa-circle text-danger"></i>
+                          <p class="text">Recette</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" th:href="@{/caisse}" class="nav-link">
+                          <i class="nav-icon far fa-circle text-warning"></i>
+                          <p class="text">Etat de caisse</p>
+                      </a>
+                  </li>
+
+                  <li class="nav-header">CONFIGURATION</li>
+
+                  <li class="nav-item">
+                      <a href="#" th:href="@{/unite}" class="nav-link">
+                          <i class="nav-icon far fa-circle text-secondary"></i>
+                          <p class="text">Unite</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" th:href="@{/categorie}" class="nav-link">
+                          <i class="nav-icon far fa-circle text-success"></i>
+                          <p class="text">Catégorie</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" th:href="@{/souscategorie}" class="nav-link">
+                          <i class="nav-icon far fa-circle text-danger"></i>
+                          <p class="text">Sous Catégorie</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" th:href="@{/modedepaiement}" class="nav-link">
+                          <i class="nav-icon far fa-circle text-info"></i>
+                          <p class="text">Mode de paiement</p>
+                      </a>
+                  </li>
+
+                  <li class="nav-header">PARAMETRES</li>
+
+                  <li class="nav-item">
+                      <a href="#" class="nav-link">
+                          <i class="nav-icon far fa-circle text-secondary"></i>
+                          <p class="text">Utilisateurs</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" class="nav-link">
+                          <i class="nav-icon far fa-circle text-success"></i>
+                          <p class="text">Rôles</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" class="nav-link">
+                          <i class="nav-icon far fa-circle text-danger"></i>
+                          <p class="text">Historique</p>
+                      </a>
+                  </li>
+
+              </ul>
+          </nav>
+          <!-- /.sidebar-menu -->
+      </div>
+  </aside>
